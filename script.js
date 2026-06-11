@@ -94,6 +94,7 @@ const translations = {
         'label_company': 'Company',
         'label_message': 'Message',
         'btn_send': 'Send Message',
+        'btn_ok': 'OK',
 
         // Footer
         'footer_text': '© 2024 Silk Bridge Trading. All rights reserved.',
@@ -194,6 +195,7 @@ const translations = {
         'label_company': '公司',
         'label_message': '留言',
         'btn_send': '发送消息',
+        'btn_ok': '确定',
 
         // Footer
         'footer_text': '© 2024 丝绸桥贸易。保留所有权利。',
@@ -294,6 +296,7 @@ const translations = {
         'label_company': 'الشركة',
         'label_message': 'الرسالة',
         'btn_send': 'إرسال الرسالة',
+        'btn_ok': 'حسناً',
 
         // Footer
         'footer_text': '© 2024 جسر الحرير للتجارة. جميع الحقوق محفوظة.',
@@ -411,53 +414,66 @@ async function submitForm(event) {
 
         if (response.ok) {
             // Success message
-            const successMessages = {
-                en: '✅ Thank you! Your message has been sent successfully.',
-                zh: '✅ 感谢您！您的消息已成功发送。',
-                ar: '✅ شكراً! تم إرسال رسالتك بنجاح.',
+            const successTitles = {
+                en: 'Thank You!',
+                zh: '谢谢！',
+                ar: 'شكراً لك!',
             };
 
-            formStatus.style.display = 'block';
-            formStatus.style.background = '#d4f1d4';
-            formStatus.style.color = '#0a6e0a';
-            formStatus.style.border = '1px solid #a6dda6';
-            formStatus.textContent = successMessages[currentLanguage] || successMessages.en;
+            const successMessages = {
+                en: '✅ Your message has been sent successfully. We will get back to you within 24 hours.',
+                zh: '✅ 您的消息已成功发送。我们将在24小时内与您联系。',
+                ar: '✅ تم إرسال رسالتك بنجاح. سنرد عليك في غضون 24 ساعة.',
+            };
+
+            showModal(
+                successTitles[currentLanguage] || successTitles.en,
+                successMessages[currentLanguage] || successMessages.en,
+                'success'
+            );
 
             // Reset form
             form.reset();
-
-            // Hide status after 5 seconds
-            setTimeout(() => {
-                formStatus.style.display = 'none';
-            }, 5000);
         } else {
             // Error message
+            const errorTitles = {
+                en: 'Error',
+                zh: '错误',
+                ar: 'خطأ',
+            };
+
             const errorMessages = {
                 en: '❌ Error sending message. Please try again.',
                 zh: '❌ 发送失败。请重试。',
                 ar: '❌ حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى.',
             };
 
-            formStatus.style.display = 'block';
-            formStatus.style.background = '#f1d4d4';
-            formStatus.style.color = '#6e0a0a';
-            formStatus.style.border = '1px solid #dda6a6';
-            formStatus.textContent = errorMessages[currentLanguage] || errorMessages.en;
+            showModal(
+                errorTitles[currentLanguage] || errorTitles.en,
+                errorMessages[currentLanguage] || errorMessages.en,
+                'error'
+            );
         }
     } catch (error) {
         console.error('Form submission error:', error);
 
-        const errorMessages = {
-            en: '❌ Network error. Please check your connection.',
-            zh: '❌ 网络错误。请检查您的连接。',
-            ar: '❌ خطأ في الشبكة. يرجى التحقق من اتصالك.',
+        const errorTitles = {
+            en: 'Network Error',
+            zh: '网络错误',
+            ar: 'خطأ في الشبكة',
         };
 
-        formStatus.style.display = 'block';
-        formStatus.style.background = '#f1d4d4';
-        formStatus.style.color = '#6e0a0a';
-        formStatus.style.border = '1px solid #dda6a6';
-        formStatus.textContent = errorMessages[currentLanguage] || errorMessages.en;
+        const errorMessages = {
+            en: '❌ Network error. Please check your connection and try again.',
+            zh: '❌ 网络错误。请检查您的连接并重试。',
+            ar: '❌ خطأ في الشبكة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.',
+        };
+
+        showModal(
+            errorTitles[currentLanguage] || errorTitles.en,
+            errorMessages[currentLanguage] || errorMessages.en,
+            'error'
+        );
     } finally {
         // Re-enable submit button
         submitBtn.disabled = false;
@@ -486,3 +502,19 @@ window.addEventListener('load', () => {
         }
     });
 });
+
+// Modal Functions
+function showModal(title, message, messageClass = '') {
+    const modal = document.getElementById('messageModal');
+    const modalTitle = document.querySelector('.modal-header h2');
+    const modalMessage = document.getElementById('modalMessage');
+
+    modalTitle.textContent = title;
+    modalMessage.innerHTML = `<p class="${messageClass}">${message}</p>`;
+    modal.classList.add('show');
+}
+
+function closeModal() {
+    const modal = document.getElementById('messageModal');
+    modal.classList.remove('show');
+}
