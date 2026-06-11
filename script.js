@@ -376,19 +376,93 @@ function toggleWechatInput() {
 }
 
 // Submit Form
-function submitForm(event) {
+async function submitForm(event) {
     event.preventDefault();
 
     const form = event.target;
-    const formData = new FormData(form);
+    const submitBtn = document.getElementById('submitBtn');
+    const formStatus = document.getElementById('formStatus');
 
-    // Here you would typically send the form data to a server
-    // For now, we'll just show a success message
-    alert(currentLanguage === 'en' ? 'Thank you for your message!' :
-          currentLanguage === 'zh' ? '感谢您的消息！' :
-          'شكراً على رسالتك!');
+    try {
+        // Disable submit button during submission
+        submitBtn.disabled = true;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = currentLanguage === 'en' ? 'Sending...' :
+                                currentLanguage === 'zh' ? '发送中...' :
+                                'جاري الإرسال...';
 
-    form.reset();
+        // Prepare form data
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            company: document.getElementById('company').value,
+            message: document.getElementById('message').value,
+            language: currentLanguage,
+        };
+
+        // Send to API
+        const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            // Success message
+            const successMessages = {
+                en: '✅ Thank you! Your message has been sent successfully.',
+                zh: '✅ 感谢您！您的消息已成功发送。',
+                ar: '✅ شكراً! تم إرسال رسالتك بنجاح.',
+            };
+
+            formStatus.style.display = 'block';
+            formStatus.style.background = '#d4f1d4';
+            formStatus.style.color = '#0a6e0a';
+            formStatus.style.border = '1px solid #a6dda6';
+            formStatus.textContent = successMessages[currentLanguage] || successMessages.en;
+
+            // Reset form
+            form.reset();
+
+            // Hide status after 5 seconds
+            setTimeout(() => {
+                formStatus.style.display = 'none';
+            }, 5000);
+        } else {
+            // Error message
+            const errorMessages = {
+                en: '❌ Error sending message. Please try again.',
+                zh: '❌ 发送失败。请重试。',
+                ar: '❌ حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى.',
+            };
+
+            formStatus.style.display = 'block';
+            formStatus.style.background = '#f1d4d4';
+            formStatus.style.color = '#6e0a0a';
+            formStatus.style.border = '1px solid #dda6a6';
+            formStatus.textContent = errorMessages[currentLanguage] || errorMessages.en;
+        }
+    } catch (error) {
+        console.error('Form submission error:', error);
+
+        const errorMessages = {
+            en: '❌ Network error. Please check your connection.',
+            zh: '❌ 网络错误。请检查您的连接。',
+            ar: '❌ خطأ في الشبكة. يرجى التحقق من اتصالك.',
+        };
+
+        formStatus.style.display = 'block';
+        formStatus.style.background = '#f1d4d4';
+        formStatus.style.color = '#6e0a0a';
+        formStatus.style.border = '1px solid #dda6a6';
+        formStatus.textContent = errorMessages[currentLanguage] || errorMessages.en;
+    } finally {
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
 }
 
 // Smooth scroll for navigation links

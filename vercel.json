@@ -1,0 +1,13 @@
+{
+  "env": {
+    "RESEND_API_KEY": "@resend_api_key"
+  },
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  },
+  "buildCommand": "echo 'Build complete'",
+  "outputDirectory": "public"
+}
