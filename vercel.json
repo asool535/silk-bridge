@@ -1,7 +1,4 @@
 {
-  "env": {
-    "RESEND_API_KEY": "@resend_api_key"
-  },
   "functions": {
     "api/**/*.js": {
       "memory": 1024,
