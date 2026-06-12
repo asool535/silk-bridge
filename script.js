@@ -87,6 +87,7 @@ const translations = {
         'location': 'Location',
         'phone': 'Phone',
         'email': 'Email',
+        'website': 'Website',
         'wechat': 'WeChat',
         'add_wechat': 'Add WeChat',
         'label_name': 'Name',
@@ -95,6 +96,7 @@ const translations = {
         'label_message': 'Message',
         'btn_send': 'Send Message',
         'btn_ok': 'OK',
+        'scan_qr': 'Scan to add me on WeChat',
 
         // Footer
         'footer_text': '© 2024 Silk Bridge Trading. All rights reserved.',
@@ -188,6 +190,7 @@ const translations = {
         'location': '位置',
         'phone': '电话',
         'email': '电子邮件',
+        'website': '网站',
         'wechat': '微信',
         'add_wechat': '添加微信',
         'label_name': '姓名',
@@ -196,6 +199,7 @@ const translations = {
         'label_message': '留言',
         'btn_send': '发送消息',
         'btn_ok': '确定',
+        'scan_qr': '扫描二维码添加我的微信',
 
         // Footer
         'footer_text': '© 2024 丝绸桥贸易。保留所有权利。',
@@ -289,6 +293,7 @@ const translations = {
         'location': 'الموقع',
         'phone': 'الهاتف',
         'email': 'البريد الإلكتروني',
+        'website': 'الموقع الإلكتروني',
         'wechat': 'ويتشات',
         'add_wechat': 'إضافة ويتشات',
         'label_name': 'الاسم',
@@ -297,6 +302,7 @@ const translations = {
         'label_message': 'الرسالة',
         'btn_send': 'إرسال الرسالة',
         'btn_ok': 'حسناً',
+        'scan_qr': 'امسح الرمز الاستجابة السريعة لإضافتي على WeChat',
 
         // Footer
         'footer_text': '© 2024 جسر الحرير للتجارة. جميع الحقوق محفوظة.',
@@ -518,3 +524,4 @@ function closeModal() {
     const modal = document.getElementById('messageModal');
     modal.classList.remove('show');
 }
+

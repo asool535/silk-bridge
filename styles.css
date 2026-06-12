@@ -414,6 +414,27 @@ body.rtl {
     color: #666;
 }
 
+.info-item a {
+    color: #0a1428;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.info-item a:hover {
+    color: #d4af37;
+}
+
+.phone-country {
+    background: #d4af37;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
 .wechat-input {
     padding: 10px;
     border: 2px solid #d4af37;
