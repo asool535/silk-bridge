@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         from: 'Silk Bridge Trading <noreply@slkbridge.com>',
         to: 'info@slkbridge.com',
         replyTo: email,
-        subject: `New Contact Form Submission from ${name}`,
+        subject: `New Contact Form Submission - From ${name}`,
         html: generateEmailHTML(name, email, company, message, language),
       }),
     });
